@@ -1,0 +1,7 @@
+torch
+transformers
+streamlit
+datasets
+seqeval
+numpy
+scipy
