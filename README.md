@@ -1,3 +1,13 @@
+---
+title: BERT NER App
+emoji: 🤖
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+sdk_version: "1.33.0"
+app_file: app.py
+pinned: false
+---
 # Fine-Tuned BERT for Named Entity Recognition (NER)
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-streamlit-app-url.streamlit.app) 
