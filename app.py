@@ -5,23 +5,30 @@ import torch
 import numpy as np
 
 # --- CONFIGURATION ---
-MODEL_DIR = "./model"
+MODEL_REPO_ID = "Nomi78600/bert-ner-squad"
 st.set_page_config(page_title="NER with BERT", page_icon="🤖", layout="wide")
 
 # --- MODEL LOADING ---
 @st.cache_resource
-def load_model_and_tokenizer(model_path):
-    """Load the fine-tuned model and tokenizer from a local directory."""
+def load_model_and_tokenizer(repo_id):
+    """Load the fine-tuned model and tokenizer from the Hugging Face Hub."""
     try:
-        tokenizer = AutoTokenizer.from_pretrained(model_path)
-        model = AutoModelForTokenClassification.from_pretrained(model_path)
+        tokenizer = AutoTokenizer.from_pretrained(repo_id)
+        model = AutoModelForTokenClassification.from_pretrained(repo_id)
         return tokenizer, model
+    except OSError:
+        st.error(f"Error loading model: Could not find repository '{repo_id}' on the Hugging Face Hub. Please check the name.")
+        return None, None
     except Exception as e:
-        st.error(f"Error loading model: {e}")
+        st.error(f"An unexpected error occurred while loading the model: {e}")
         return None, None
 
-tokenizer, model = load_model_and_tokenizer(MODEL_DIR)
+# Load the model from the Hub
+with st.spinner(f"Loading model '{MODEL_REPO_ID}' from Hugging Face Hub..."):
+    tokenizer, model = load_model_and_tokenizer(MODEL_REPO_ID)
+
 if model is None:
+    st.error("Application failed to load the model. Please check the logs.")
     st.stop()
 
 # --- NER VISUALIZATION ---
